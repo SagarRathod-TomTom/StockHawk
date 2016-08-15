@@ -1,27 +1,19 @@
+/**
+ * Copyright (C) August 2016
+ * The Stock Hawk project
+ */
 package com.sam_chordas.android.stockhawk.ui;
 
-import android.app.Activity;
+
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.service.dreams.DreamService;
-import android.support.annotation.ColorRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -30,7 +22,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.beans.StockHistory;
-import com.sam_chordas.android.stockhawk.data.HistoryColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
 import com.sam_chordas.android.stockhawk.rest.Utils;
 
@@ -41,13 +32,18 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+
+/**
+ * Shows stock history over a time for stock hawk application.
+ *
+ * @author Sagar Rathod
+ * @version 1.0
+ */
 
 public class StockHistoryActivity extends AppCompatActivity {
 
@@ -61,6 +57,11 @@ public class StockHistoryActivity extends AppCompatActivity {
     private String mEndDate = Utils.getPreviousDayDate();
     private ContentResolver mContentResolver;
 
+    /**
+     * Initializes a chart view.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +85,10 @@ public class StockHistoryActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Builds a sql query for YAHOO Apis to fetch historical data.
+     * @return
+     */
     private String buildQuery() {
         StringBuilder queryBuilder = new StringBuilder();
         String query = "select * from yahoo.finance.historicaldata where";
@@ -94,10 +99,17 @@ public class StockHistoryActivity extends AppCompatActivity {
         return queryBuilder.toString();
     }
 
+    /**
+     * Loads the stock history in background thread.
+     *
+     */
     class StockHistoryAsyncTask extends AsyncTask<Void, Void, List<StockHistory>> {
 
         ProgressDialog progressDialog;
 
+        /**
+         * Displays a progress dialog
+         */
         @Override
         protected void onPreExecute() {
             progressDialog = ProgressDialog
@@ -105,6 +117,10 @@ public class StockHistoryActivity extends AppCompatActivity {
                             getString(R.string.loading));
         }
 
+        /**
+         * Checks whether stock history already exist in the database.
+         * @return
+         */
         private List<StockHistory> getStockHistoryIfExist() {
             Cursor cursor = null;
             String projection[] = null, selection = null, selectionArgs[] = null, sortOrder = null;
@@ -119,6 +135,12 @@ public class StockHistoryActivity extends AppCompatActivity {
             return buildFromCursor(cursor);
         }
 
+        /**
+         * Prepares a list of stock history object from cursor.
+         * @param cursor
+         * @return
+         */
+
         List<StockHistory> buildFromCursor(Cursor cursor) {
 
             List<StockHistory> stockHistoryList = null;
@@ -127,7 +149,6 @@ public class StockHistoryActivity extends AppCompatActivity {
                 Log.d("Cursor","count:"+cursor.getColumnCount());
                 stockHistoryList = new ArrayList<StockHistory>();
                 while (cursor.moveToNext()) {
-
                     StockHistory stockHistory = new StockHistory();
                     stockHistory.setDate(cursor.getString(2));
                     stockHistory.setLow(cursor.getFloat(3));
@@ -139,6 +160,11 @@ public class StockHistoryActivity extends AppCompatActivity {
             return stockHistoryList;
         }
 
+        /**
+         * Fetches the stock historical data from yahoo apis.
+         * @param params
+         * @return List of stock history. Returns null in case of empty response.
+         */
         @Override
         protected List<StockHistory> doInBackground(Void... params) {
 
@@ -177,16 +203,19 @@ public class StockHistoryActivity extends AppCompatActivity {
             } catch (IOException e) {
                 return null;
             } catch (JSONException e) {
-                e.printStackTrace();
                 return null;
             }
         }
 
+        /**
+         * Displays the line chart.
+         *
+         * @param stockHistoryList
+         */
         @Override
         protected void onPostExecute(List<StockHistory> stockHistoryList) {
 
             if (stockHistoryList != null) {
-                Log.d("History:", stockHistoryList.toString());
 
                 ArrayList<Entry> lowEntries = new ArrayList<Entry>();
                 ArrayList<Entry> highEntries = new ArrayList<Entry>();
@@ -237,6 +266,13 @@ public class StockHistoryActivity extends AppCompatActivity {
             progressDialog.dismiss();
         }
 
+        /**
+         * Updates the line chart view.
+         *
+         * @param lineChart
+         * @param max
+         * @param lineData
+         */
         private void updateLineChartView(LineChart lineChart, int max, LineData lineData) {
             lineChart.setData(lineData);
             lineChart.notifyDataSetChanged();
