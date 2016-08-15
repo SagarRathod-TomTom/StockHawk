@@ -1,3 +1,8 @@
+/**
+ * Copyright (C) August 2016
+ * The Stock Hawk project
+ */
+
 package com.sam_chordas.android.stockhawk.rest;
 
 import android.content.Context;
@@ -9,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sam_chordas.android.stockhawk.R;
@@ -19,97 +25,147 @@ import com.sam_chordas.android.stockhawk.touch_helper.ItemTouchHelperViewHolder;
 
 /**
  * Created by sam_chordas on 10/6/15.
- *  Credit to skyfishjy gist:
- *    https://gist.github.com/skyfishjy/443b7448f59be978bc59
+ * Credit to skyfishjy gist:
+ * https://gist.github.com/skyfishjy/443b7448f59be978bc59
  * for the code structure
+ * <p>
+ * Implementation of quote cursor adapter.
  */
 public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAdapter.ViewHolder>
-    implements ItemTouchHelperAdapter{
+        implements ItemTouchHelperAdapter {
 
-  private static Context mContext;
-  private static Typeface robotoLight;
-  private boolean isPercent;
-  public QuoteCursorAdapter(Context context, Cursor cursor){
-    super(context, cursor);
-    mContext = context;
-  }
+    private static Context mContext;
+    private static Typeface robotoLight;
+    private boolean isPercent;
 
-  @Override
-  public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-    robotoLight = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-Light.ttf");
-    View itemView = LayoutInflater.from(parent.getContext())
-        .inflate(R.layout.list_item_quote, parent, false);
-    ViewHolder vh = new ViewHolder(itemView);
-    return vh;
-  }
-
-  @Override
-  public void onBindViewHolder(final ViewHolder viewHolder, final Cursor cursor){
-    viewHolder.symbol.setText(cursor.getString(cursor.getColumnIndex("symbol")));
-    viewHolder.bidPrice.setText(cursor.getString(cursor.getColumnIndex("bid_price")));
-    int sdk = Build.VERSION.SDK_INT;
-    if (cursor.getInt(cursor.getColumnIndex("is_up")) == 1){
-      if (sdk < Build.VERSION_CODES.JELLY_BEAN){
-        viewHolder.change.setBackgroundDrawable(
-            mContext.getResources().getDrawable(R.drawable.percent_change_pill_green));
-      }else {
-        viewHolder.change.setBackground(
-            mContext.getResources().getDrawable(R.drawable.percent_change_pill_green));
-      }
-    } else{
-      if (sdk < Build.VERSION_CODES.JELLY_BEAN) {
-        viewHolder.change.setBackgroundDrawable(
-            mContext.getResources().getDrawable(R.drawable.percent_change_pill_red));
-      } else{
-        viewHolder.change.setBackground(
-            mContext.getResources().getDrawable(R.drawable.percent_change_pill_red));
-      }
+    /**
+     * Constructs an instance of quote cursor adapter.
+     *
+     * @param context The application context.
+     * @param cursor  The cursor.
+     */
+    public QuoteCursorAdapter(Context context, Cursor cursor) {
+        super(context, cursor);
+        mContext = context;
     }
-    if (Utils.showPercent){
-      viewHolder.change.setText(cursor.getString(cursor.getColumnIndex("percent_change")));
-    } else{
-      viewHolder.change.setText(cursor.getString(cursor.getColumnIndex("change")));
+
+    /**
+     * Inflates the list item layout for each row in the cursor.
+     *
+     * @param parent   The parent view group.
+     * @param viewType The type of view.
+     * @return view holder
+     */
+    @Override
+    public QuoteCursorAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        robotoLight = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-Light.ttf");
+        viewType = getItemViewType(0);
+        QuoteCursorAdapter.ViewHolder vh = null;
+        View itemView;
+
+        itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item_quote, parent, false);
+        vh = new QuoteCursorAdapter.ViewHolder(itemView);
+
+        return vh;
     }
-  }
 
-  @Override public void onItemDismiss(int position) {
-    Cursor c = getCursor();
-    c.moveToPosition(position);
-    String symbol = c.getString(c.getColumnIndex(QuoteColumns.SYMBOL));
-    mContext.getContentResolver().delete(QuoteProvider.Quotes.withSymbol(symbol), null, null);
-    notifyItemRemoved(position);
-  }
+    /**
+     * Binds the cursor data to inflated layout.
+     *
+     * @param viewHolder The inflated list item layout
+     * @param cursor The cursor
+     */
 
-  @Override public int getItemCount() {
-    return super.getItemCount();
-  }
+    @Override
+    public void onBindViewHolder(QuoteCursorAdapter.ViewHolder viewHolder, final Cursor cursor) {
 
-  public static class ViewHolder extends RecyclerView.ViewHolder
-      implements ItemTouchHelperViewHolder, View.OnClickListener{
-    public final TextView symbol;
-    public final TextView bidPrice;
-    public final TextView change;
-    public ViewHolder(View itemView){
-      super(itemView);
-      symbol = (TextView) itemView.findViewById(R.id.stock_symbol);
-      symbol.setTypeface(robotoLight);
-      bidPrice = (TextView) itemView.findViewById(R.id.bid_price);
-      change = (TextView) itemView.findViewById(R.id.change);
+        viewHolder.symbol.setText(cursor.getString(cursor.getColumnIndex("symbol")));
+        viewHolder.bidPrice.setText(cursor.getString(cursor.getColumnIndex("bid_price")));
+        int sdk = Build.VERSION.SDK_INT;
+        if (cursor.getInt(cursor.getColumnIndex("is_up")) == 1) {
+            if (sdk < Build.VERSION_CODES.JELLY_BEAN) {
+                viewHolder.change.setBackgroundDrawable(
+                        mContext.getResources().getDrawable(R.drawable.percent_change_pill_green));
+            } else {
+                viewHolder.change.setBackground(
+                        mContext.getResources().getDrawable(R.drawable.percent_change_pill_green));
+            }
+        } else {
+            if (sdk < Build.VERSION_CODES.JELLY_BEAN) {
+                viewHolder.change.setBackgroundDrawable(
+                        mContext.getResources().getDrawable(R.drawable.percent_change_pill_red));
+            } else {
+                viewHolder.change.setBackground(
+                        mContext.getResources().getDrawable(R.drawable.percent_change_pill_red));
+            }
+        }
+        if (Utils.showPercent) {
+            viewHolder.change.setText(cursor.getString(cursor.getColumnIndex("percent_change")));
+        } else {
+            viewHolder.change.setText(cursor.getString(cursor.getColumnIndex("change")));
+        }
+
+        String contentDescription = "Bid Price of " + viewHolder.symbol.getText() + " stock is" +
+                " " + viewHolder.bidPrice.getText();
+        viewHolder.linearLayout.setContentDescription(contentDescription);
+
+    }
+
+
+    /**
+     * Delete the row of symbol from qoutes tables if user swipes on the recycler view.
+     * @param position The position of row in cursor.
+     */
+
+    @Override
+    public void onItemDismiss(int position) {
+        Cursor c = getCursor();
+        c.moveToPosition(position);
+        String symbol = c.getString(c.getColumnIndex(QuoteColumns.SYMBOL));
+        mContext.getContentResolver().delete(QuoteProvider.Quotes.withSymbol(symbol), null, null);
+        notifyItemRemoved(position);
     }
 
     @Override
-    public void onItemSelected(){
-      itemView.setBackgroundColor(Color.LTGRAY);
+    public int getItemCount() {
+        return super.getItemCount();
     }
 
-    @Override
-    public void onItemClear(){
-      itemView.setBackgroundColor(0);
-    }
+    /**
+     * View holder pattern for list item layout.
+     *
+     */
+    public static class ViewHolder extends RecyclerView.ViewHolder
+            implements ItemTouchHelperViewHolder, View.OnClickListener {
 
-    @Override
-    public void onClick(View v) {
+        public final TextView symbol;
+        public final TextView bidPrice;
+        public final TextView change;
+        public LinearLayout linearLayout;
 
+        public ViewHolder(View itemView) {
+            super(itemView);
+            linearLayout = (LinearLayout) itemView.findViewById(R.id.linear_layout);
+            symbol = (TextView) itemView.findViewById(R.id.stock_symbol);
+            symbol.setTypeface(robotoLight);
+            bidPrice = (TextView) itemView.findViewById(R.id.bid_price);
+            change = (TextView) itemView.findViewById(R.id.change);
+        }
+
+        @Override
+        public void onItemSelected() {
+            itemView.setBackgroundColor(Color.LTGRAY);
+        }
+
+        @Override
+        public void onItemClear() {
+            itemView.setBackgroundColor(0);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+        }
     }
-  }
 }

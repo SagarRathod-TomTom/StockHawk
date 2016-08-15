@@ -12,12 +12,27 @@
       android:layout_height="match_parent"
       />
 
+  <TextView
+      android:id="@+id/empty_text_view"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:textColor="@android:color/holo_orange_light"
+      android:textSize="20sp"
+      android:visibility="gone"
+      android:layout_gravity="center"
+      android:padding="5dp"
+      android:textAlignment="center"
+      android:textStyle="bold"
+      />
+
   <com.melnykov.fab.FloatingActionButton
       android:id="@+id/fab"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_gravity="bottom|right"
       android:layout_margin="16dp"
+      android:contentDescription="@string/floating_action_button"
       android:src="@drawable/ic_add_white_24dp"
       fab:fab_colorNormal="@color/material_blue_500"
       fab:fab_colorPressed="@color/material_blue_600"

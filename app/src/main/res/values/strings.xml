@@ -1,13 +1,42 @@
 <resources>
-  <string name="app_name">Stock Hawk</string>
 
-  <string name="action_example">Example action</string>
+    <!-- Application labels -->
+    <string name="app_name">Stock Hawk</string>
+    <string name="stock_history">Stock History</string>
+    <string name="action_change_units">Change Units</string>
+    <string name="symbol_search">Symbol Search</string>
+    <string name="content_test">Search for a Stock Symbol</string>
+    <string name="input_hint">FB</string>
+    <string name="input_prefill"></string>
+    <string name="please_wait">Please wait.</string>
+    <string name="loading">Loading the content.</string>
+    <string name="stock_low_tag_line">Stock Low values</string>
+    <string name="stock_high_tag_line">Stock High values</string>
 
-  <string name="action_settings">Settings</string>
-  <string name="action_change_units">Change Units</string>
-  <string name="symbol_search">Symbol Search</string>
-  <string name="content_test">Search for a Stock Symbol</string>
-  <string name="input_hint">FB</string>
-  <string name="input_prefill"></string>
-  <string name="network_toast">Uh-oh! This app requires an internet connection</string>
+
+    <!--SharedPreference keys -->
+    <string name="network_state" translatable="false">network_state</string>
+    <string name="result" translatable="false">result</string>
+    <string name="error_message" translatable="false">error_message</string>
+    <string name="symbol_extra" translatable="false">symbol</string>
+    <string name="status_key" translatable="false">status</string>
+
+
+    <!-- All messages related to errors. -->
+    <string name="network_error">There is no Internet. Please check your network connection!</string>
+    <string name="stock_present_error">Entered Stock is already present!</string>
+    <string name="stock_symbol_not_present_error">Entered Stock Symbol is not present.</string>
+    <string name="incorrect_symbol_entered">Incorrect Symbol Entered</string>
+    <string name="stocks_out_of_date_error">Uh-oh! Stocks are out of date.
+        This app requires an internet connection!</string>
+    <string name="application_error">Something went wrong. Please update Stock Hawk!</string>
+    <string name="server_error">No Stock Information Available. The server is not returning data.</string>
+    <string name="empty_stock_quotes_error">No Stock Information Available.</string>
+
+    <!-- content descriptions-->
+    <string name="floating_action_button">Add New Stock To Track</string>
+    <string name="low_stock_history_values">Shows Low values of Stock since last 10 days</string>
+    <string name="high_stock_history_values">Shows High values of Stock since last 10 days</string>
+
+
 </resources>

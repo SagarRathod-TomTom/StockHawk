@@ -1,3 +1,8 @@
+/**
+ * Copyright (C) August 2016
+ * The Stock Hawk project
+ */
+
 package com.sam_chordas.android.stockhawk.data;
 
 import net.simonvt.schematic.annotation.AutoIncrement;
@@ -6,7 +11,11 @@ import net.simonvt.schematic.annotation.NotNull;
 import net.simonvt.schematic.annotation.PrimaryKey;
 
 /**
- * Created by sam_chordas on 10/5/15.
+ * List of columns for stock quotes table
+ *
+ * @author Sagar Rathod
+ * @version 1.0
+ *
  */
 public class QuoteColumns {
   @DataType(DataType.Type.INTEGER) @PrimaryKey @AutoIncrement

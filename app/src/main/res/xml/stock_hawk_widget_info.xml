@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
-</PreferenceScreen>
+<appwidget-provider  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/stock_widget_layout"
+    android:label="@string/app_name"
+    android:minHeight="180dp"
+    android:minWidth="180dp"
+    android:resizeMode="none"
+    android:icon="@mipmap/ic_launcher"
+    android:previewImage="@mipmap/preview_image"
+    android:updatePeriodMillis="86400000"
+    >
+</appwidget-provider>

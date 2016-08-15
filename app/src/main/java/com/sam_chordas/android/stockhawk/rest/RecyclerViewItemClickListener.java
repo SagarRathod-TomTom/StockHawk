@@ -1,3 +1,7 @@
+/**
+ * Copyright (C) August 2016
+ * The Stock Hawk project
+ */
 package com.sam_chordas.android.stockhawk.rest;
 
 import android.content.Context;
@@ -8,6 +12,7 @@ import android.view.View;
 
 /**
  * Created by sam_chordas on 11/9/15.
+ * Handles the item click events on recycler view.
  */
 public class RecyclerViewItemClickListener implements RecyclerView.OnItemTouchListener {
 
@@ -22,6 +27,12 @@ public class RecyclerViewItemClickListener implements RecyclerView.OnItemTouchLi
     public void onItemClick(View v, int position);
   }
 
+    /**
+     * Constructs the instance of recycler item click listener.
+     *
+     * @param context The application context
+     * @param listener
+     */
   public RecyclerViewItemClickListener(Context context, OnItemClickListener listener) {
     this.listener = listener;
     gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
@@ -30,6 +41,14 @@ public class RecyclerViewItemClickListener implements RecyclerView.OnItemTouchLi
       }
     });
   }
+
+    /**
+     * Handles the touch event on recycler view item.
+     *
+     * @param view The recycler view
+     * @param e The motion event.
+     * @return
+     */
 
   @Override public boolean onInterceptTouchEvent(RecyclerView view, MotionEvent e) {
     View childView = view.findChildViewUnder(e.getX(), e.getY());

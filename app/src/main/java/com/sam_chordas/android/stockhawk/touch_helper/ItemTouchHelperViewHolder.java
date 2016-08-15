@@ -1,3 +1,8 @@
+/**
+ * Copyright (C) August 2016
+ * The Stock Hawk project
+ */
+
 package com.sam_chordas.android.stockhawk.touch_helper;
 
 /**

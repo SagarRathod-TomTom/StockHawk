@@ -1,2 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <!-- Application labels -->
+
+    <string name="symbol_search">رمز البحث</string>
+    <string name="content_test">بحث عن الأوراق المالية رمز</string>
+    <string name="please_wait">أرجو الإنتظار.</string>
+    <string name="loading">تحميل المحتوى.</string>
+    <string name="stock_low_tag_line">قيم الاسهم منخفضة</string>
+    <string name="stock_high_tag_line">قيم الأسهم العليا</string>
+
+    <!-- All messages related to errors. -->
+    <string name="network_error">لا يوجد الإنترنت. الرجاء التحقق من اتصال الشبكة الخاص بك!</string>
+    <string name="stock_present_error">دخلت أسهم موجودا بالفعل!</string>
+    <string name="stock_symbol_not_present_error">دخلت أسهم رمز غير موجود.</string>
+    <string name="incorrect_symbol_entered">رمز غير صحيح دخلت</string>
+    <string name="stocks_out_of_date_error">اه اوه! الأسهم قديما. هذا التطبيق يتطلب اتصال بالإنترنت!</string>
+    <string name="application_error">حدث خطأ. يرجى تحديث المالية هوك!</string>
+    <string name="server_error">لا توجد معلومات الأوراق المالية المتاحة. الملقم لا يعودون البيانات.</string>
+    <string name="empty_stock_quotes_error">لا توجد معلومات الأوراق المالية المتاحة.</string>
+
+    <!-- content descriptions-->
+    <string name="floating_action_button">إضافة أسهم جديدة لتتبع</string>
+    <string name="low_stock_history_values">يبين قيم منخفضة من المالية منذ 10 يوما الماضية</string>
+    <string name="high_stock_history_values">يبين قيم عالية من المالية منذ 10 يوما الماضية</string>
+</resources>
